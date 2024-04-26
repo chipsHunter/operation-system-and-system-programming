@@ -9,7 +9,6 @@ char getAction(void) {
 int stringComparator(const void* first, const void* second) {
     return strcmp(*(const char**)first, *(const char**)second);
 }
-
 void printEnvParameters(char* env[]) {
     size_t envArrSize = -1;
     while (env[envArrSize + 1] != NULL) {
@@ -33,6 +32,7 @@ char* valueFromParam(const char* parameter, const unsigned long paramNameLen) {
     }
     return paramValue;
 }
+const char* handleParamFromEnvInSpecifiedWay()
 const char* getParameterFromEnv(const char* parameterName, char* env[]) {
     unsigned long paramNameLen = strlen(parameterName);
     for (size_t envSize = 0; env[envSize] != NULL; envSize++) {
@@ -48,4 +48,20 @@ const char* getParameterFromEnv(const char* parameterName, char* env[]) {
         }
     }
     return NULL;
+}
+const char *getParamInSpecifiedWay(char action, const char* parameter, char* env[]) {
+    const char* childPath;
+    if(action == GET_INFO_FROM_FUNCTION) {
+        childPath = getenv(parameter);
+        printf("%s\n", childPath);
+    }
+    if(action == GET_INFO_FROM_ENV_PARAMETERS) {
+        childPath = getParameterFromEnv(parameter, env);
+        printf("%s\n", childPath);
+    }
+    if(action == GET_INFO_FROM_EXTERNAL_VARIABLE) {
+        childPath = getParameterFromEnv(parameter, environ);
+        printf("%s\n", childPath);
+    }
+    return childPath;
 }

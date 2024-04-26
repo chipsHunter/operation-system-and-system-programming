@@ -1,4 +1,5 @@
 
+#include <sys/wait.h>
 #include "parent.h"
 
 int main(int argc, char* argv[], char* env[]) {
@@ -8,6 +9,7 @@ int main(int argc, char* argv[], char* env[]) {
     printEnvParameters(env);
 
     int child_number = 0;
+    const char* childNameTemplate = "child_";
     const char* childPath;
     while (1) {
         char action = getAction();
@@ -15,19 +17,10 @@ int main(int argc, char* argv[], char* env[]) {
         if(action == EXIT_PARENT) {
             break;
         }
-        if(action == GET_INFO_FROM_FUNCTION) {
-            childPath = getenv(CHILD_PATH);
-            printf("%s\n", childPath);
-        }
-        if(action == GET_INFO_FROM_ENV_PARAMETERS) {
-            childPath = getParameterFromEnv(CHILD_PATH, env);
-            printf("%s\n", childPath);
-        }
-        if(action == GET_INFO_FROM_EXTERNAL_VARIABLE) {
-            childPath = getParameterFromEnv(CHILD_PATH, environ);
-            printf("%s\n", childPath);
-        }
-        //pid_t pid = fork();
+
+        childPath = getParamInSpecifiedWay(action, CHILD_PATH, env);
+        pid_t pid = fork();
+        waitpid(-1, NULL, WNOHANG);
     }
     return 0;
 }

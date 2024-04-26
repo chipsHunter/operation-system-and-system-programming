@@ -20,5 +20,6 @@ int stringComparator(const void* first, const void* second);
 void printEnvParameters(char* env[]);
 const char* getParameterFromEnv(const char* parameter, char* env[]);
 char* valueFromParam(const char* parameter, unsigned long paramNameLen);
+const char* getParamInSpecifiedWay(char action, const char* parameter, char* env[]);
 
 #endif //PARENT_PARENT_H
