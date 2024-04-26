@@ -12,6 +12,7 @@
 #define EXIT_PARENT 'q'
 
 #define CHILD_PATH "CHILD_PATH"
+#define ENV_PARAMETERS_COUNT 9
 
 extern char** environ;
 
@@ -21,5 +22,7 @@ void printEnvParameters(char* env[]);
 const char* getParameterFromEnv(const char* parameter, char* env[]);
 char* valueFromParam(const char* parameter, unsigned long paramNameLen);
 const char* getParamInSpecifiedWay(char action, const char* parameter, char* env[]);
+char** getSpecifiedParamList(const char* filename);
+char** reduceEnv(const char** paramList, char* env[]);
 
 #endif //PARENT_PARENT_H

@@ -32,7 +32,6 @@ char* valueFromParam(const char* parameter, const unsigned long paramNameLen) {
     }
     return paramValue;
 }
-const char* handleParamFromEnvInSpecifiedWay()
 const char* getParameterFromEnv(const char* parameterName, char* env[]) {
     unsigned long paramNameLen = strlen(parameterName);
     for (size_t envSize = 0; env[envSize] != NULL; envSize++) {
@@ -64,4 +63,32 @@ const char *getParamInSpecifiedWay(char action, const char* parameter, char* env
         printf("%s\n", childPath);
     }
     return childPath;
+}
+char** reduceEnv(const char** paramList, char* env[]) {
+
+    char** createdEnv = (char**)calloc(ENV_PARAMETERS_COUNT, sizeof(char*));
+    for(size_t i = 0; i < ENV_PARAMETERS_COUNT; i++) {
+        createdEnv[i] = (char*)calloc(256, sizeof(char));
+    }
+    for(size_t envSize = 0; envSize < ENV_PARAMETERS_COUNT; envSize++) {
+        const char* parameter = getParamInSpecifiedWay(GET_INFO_FROM_FUNCTION, paramList[envSize], env);
+        strcpy(createdEnv[envSize], parameter);
+    }
+    return createdEnv;
+
+}
+char** getSpecifiedParamList(const char* filename) {
+    char** paramList = (char**)calloc(ENV_PARAMETERS_COUNT, sizeof(char*));
+    for(size_t i = 0; i < ENV_PARAMETERS_COUNT; i++) {
+        paramList[i] = (char*)calloc(256, sizeof(char));
+    }
+
+    FILE* file = fopen(filename, "r");
+    char param[256];
+    size_t paramCount = 0;
+    while ((fgets(param, 256, file)) != NULL) {
+        strcpy(paramList[paramCount++], param);
+    }
+
+    return paramList;
 }
