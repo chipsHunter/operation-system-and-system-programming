@@ -1,7 +1,7 @@
 #include "functions.h"
 char* getPath(int argc, char* argv[]) {
     char* path = (char*)calloc(256, sizeof(char));
-    const char* default_path = "/home/hvorostok/lab_osisp/laba1";
+    const char* default_path = "/home/hvorostok/lab_osisp/lab1";
     char first_symb = argv[argc - 1][0];
     if(first_symb == '-' || argc == 1) {
         strcpy(path, default_path);
